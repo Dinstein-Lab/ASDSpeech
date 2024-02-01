@@ -1,0 +1,53 @@
+paths_config:
+    data_file_path: 'data/Mat4rec_Recs136.mat' # The features files of the 136 recordings
+    save_path: 'results/temp' # where to save the results
+        
+params_config:
+    calculate: True
+    n_out: 1
+    act_out: "linear"
+    loss_func: "mse" 
+    metric: "mse"
+    early_stopping: 
+        eval: True
+        patience: 20
+    unite_test: True
+    plot_TF: False # Do/dont create plots in the split function (target vs date, target hist)
+    save_model: True # 08.03.22. If to save the model for each trial + the norm transformer
+    model_name: "CNN_mdl" # The model'n name
+    data_norm_by: "mat"
+    score_name: "rrb"
+    norm_method: "standard"
+    feats_take: 49 # number of first featuress to take
+    num_mats: 1 # 0,1,... number of feature matrices to run for each recording
+    k_folds: 5
+    i_mat: 0 # 0,1,2,...num_mats-1. from which feature matrix to start from
+    year_th: 2015 # the oldest year of recordings to analyze
+    valid_ratio: 0 # validation ratio from the training set. The validation data is selected from the last samples in the x and y data provided, before shuffling
+    GPU_id: 0 #  0 or 1. on which GPU to run.
+    gender: 'all' # 0 (=boys), 1 (=girls), 'all' in train set
+    module: 'all' # [0,1,2,3]
+    random_state: 1337
+    
+hyper_tune_config:
+    calculate: 'load' # tune, read (from the yaml file), or load (from the excel file)
+    params_idx: 1 # 1,2,...,n_iters
+    cv_k: 4 # number of folds to run the search tuning
+    n_iters: 5 # number of combinations to check
+    n_per_score: 1 # 1= evaluate by record.
+    search_type: "rand"
+    statistic: "CCC"
+    batch_size:
+        start: 3
+        stop: 7
+    n_epochs:
+        start: 10
+        stop: 2000
+        step: 10
+    learn_rate:
+        start: -5
+        stop: 0
+    best_params:
+        batch_size: 
+        epochs:
+        learn_rate: 
