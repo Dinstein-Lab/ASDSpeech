@@ -32,7 +32,6 @@ To make it run properly, clone this repository in a folder.
 From your command line go to ASE_audio folder and run the following python scripts:
 
 **Training**
-
 ``` python
 # Run training using the configuration file
 python code/main_script.py -c config/config_file.yaml
