@@ -23,9 +23,23 @@ Code to run this part: `main_script.py`.
 
 ## Estimation/Prediction
 
-This process includes the application of each trained model of each fold (5x5=25 models in total) on the two test datasets: Tim-point 1 and time-point 2. 
+This process includes the application of each trained model of each fold (5x5=25 models in total) on the two test datasets: Tim-point 1 and time-point 2. This step includes the estimation of the target score of each recording in in time-point and performance evaluation.
 
 Code to run this part: `estimate_recs_trained_mdl.py`.
 
 # Run
-To make it run properly, clone this repo in a folder.
+To make it run properly, clone this repository in a folder.
+From your command line go to ASE_audio folder and run the following python scripts:
+
+**Training**
+
+``` python
+# Run training using the configuration file
+python code/main_script.py -c config/config_file.yaml
+```
+**Estimation/Prediction**
+``` python
+# Run testing using the configuration file
+python code/estimate_recs_trained_mdl.py -c config/config_file_trained_mdl.yaml
+```
+
