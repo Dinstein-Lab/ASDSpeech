@@ -1,8 +1,8 @@
-**Quantifying longitudinal changes in core autism symptoms using automated speech analysis**
+# Quantifying longitudinal changes in core autism symptoms using automated speech analysis
 
 The aim is to estimate autism severity from audio signals. This is done by training a convolutional neural network on Autism Diagnostic Observation Schedule 2nd edition (ADOS-2) recordings of 136 children using acoustic and conversational hand-crafted features. the algorithm is tested on independent recordings from 61 additional children who completed two ADOS-2 assessments, separated by 1-2 years.
 
-Folders organization
+## Folders organization
 •	`./code`: python files that used to train (`.code/main_script.py`) and test (`./code/estimate_recs_trained_mdl.py`) the algorithm.
 
 •	`./config`: the configuration files: `./config/config_file.yaml `used for training and `./config/config/config_file_trained_mdl.yaml` used for testing on the 61 children.
@@ -11,4 +11,21 @@ Folders organization
 
 •	`./results`: includes all the trained models for each target score (SA, RRB, total ADOS) for each iteration (model and weights) and the estimated scores (.txt files).
 
+## Data pre-processing
 
+The features (feature matrix of size 100x49 per recording) are normalized using the z-norm method (zero mean and unit variance), where the normalization applied per feature on the whole train dataset, and the same mean and standard deviation are used to normalize the test datasets. In this paper, we applied five feature matrices for each child.
+
+## Training
+
+This process includes 5-folds cross validation for each of the feature matrix, where each fold includes hyper-parameters tuning (learning rate, batch size, and number of epochs), testing the best parameters on the fifth fold, and performance evaluation using Pearson correlation, Root Mean Squared Error, Normalized RMSE, and Concordance Correlation Coefficient.
+
+Code to run this part: `main_script.py`.
+
+## Estimation/Prediction
+
+This process includes the application of each trained model of each fold (5x5=25 models in total) on the two test datasets: Tim-point 1 and time-point 2. 
+
+Code to run this part: `estimate_recs_trained_mdl.py`.
+
+# Run
+To make it run properly, clone this repo in a folder.
