@@ -152,7 +152,7 @@ if __name__ == "__main__":
                 for _, row in test_info_df.iterrows():
                     rec_name = "{}_{}".format(row["CK"], row["Date"].date().strftime("%d%m%y"))
                     # load features of a recording from the test dataset:
-                    feat_mat_rec = loadmat(data_files_path / f"Mat4Rec_Rec_{rec_name}_Child.mat",
+                    feat_mat_rec = loadmat(data_files_path / f"{rec_name}.mat",
                                            variable_names=["features"])
                     # Take the i_mat feature matrix:
                     features = np.asarray(feat_mat_rec["features"][i_mat - 1])[0]

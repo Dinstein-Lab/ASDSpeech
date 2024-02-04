@@ -1,5 +1,5 @@
 paths_config:
-    data_file_path: 'data/Mat4rec_Recs136.mat' # The features files of the 136 recordings
+    data_file_path: 'data/train_data.mat' # The features files of the 136 recordings
     save_path: 'results/temp' # where to save the results
         
 params_config:
@@ -16,8 +16,8 @@ params_config:
     save_model: True # 08.03.22. If to save the model for each trial + the norm transformer
     model_name: "CNN_mdl" # The model'n name
     data_norm_by: "mat"
-    score_name: "rrb"
-    norm_method: "standard"
+    score_name: "ADOS"
+    norm_method: "standard" # features normalization method. z-norm.
     feats_take: 49 # number of first featuress to take
     num_mats: 1 # 0,1,... number of feature matrices to run for each recording
     k_folds: 5
@@ -30,7 +30,7 @@ params_config:
     random_state: 1337
     
 hyper_tune_config:
-    calculate: 'load' # tune, read (from the yaml file), or load (from the excel file)
+    calculate: 'tune' # tune, read (from the yaml file), or load (from the excel file)
     params_idx: 1 # 1,2,...,n_iters
     cv_k: 4 # number of folds to run the search tuning
     n_iters: 5 # number of combinations to check
@@ -47,7 +47,7 @@ hyper_tune_config:
     learn_rate:
         start: -5
         stop: 0
-    best_params:
+    best_params: # in case where calculate="read"
         batch_size: 
         epochs:
         learn_rate: 
