@@ -1,6 +1,6 @@
 # Quantifying longitudinal changes in core autism symptoms using automated speech analysis
 
-The aim is to estimate autism severity from audio signals. This is done by training a convolutional neural network on Autism Diagnostic Observation Schedule 2nd edition (ADOS-2) recordings of 136 children using acoustic and conversational hand-crafted features. the algorithm is tested on independent recordings from 61 additional children who completed two ADOS-2 assessments, separated by 1-2 years.
+The aim is to estimate autism severity from audio signals. This is done by training a convolutional neural network on Autism Diagnostic Observation Schedule 2nd edition (ADOS-2) recordings of 136 children using acoustic and conversational hand-crafted features. The algorithm is tested on independent recordings from 61 additional children who completed two ADOS-2 assessments, separated by 1-2 years.
 
 ## Folders organization
 •	`./code`: python files that used to train (`.code/main_script.py`) and test (`./code/estimate_recs_trained_mdl.py`) the algorithm.
