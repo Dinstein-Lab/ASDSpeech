@@ -1,6 +1,6 @@
 # Quantifying longitudinal changes in core autism symptoms using automated speech analysis
 
-The aim is to estimate autism severity from audio signals. This is done by training a convolutional neural network on Autism Diagnostic Observation Schedule 2nd edition (ADOS-2) recordings of 136 children using acoustic and conversational hand-crafted features. the algorithm is tested on independent recordings from 61 additional children who completed two ADOS-2 assessments, separated by 1-2 years.
+The aim is to estimate autism severity from audio signals. This is done by training a convolutional neural network on Autism Diagnostic Observation Schedule 2nd edition (ADOS-2) recordings of 136 children using acoustic and conversational hand-crafted features. The algorithm is tested on independent recordings from 61 additional children who completed two ADOS-2 assessments, separated by 1-2 years.
 
 ## Folders organization
 •	`./code`: python files that used to train (`.code/main_script.py`) and test (`./code/estimate_recs_trained_mdl.py`) the algorithm.
@@ -32,7 +32,6 @@ To make it run properly, clone this repository in a folder.
 From your command line go to ASE_audio folder and run the following python scripts:
 
 **Training**
-
 ``` python
 # Run training using the configuration file
 python code/main_script.py -c config/config_file.yaml
@@ -42,4 +41,3 @@ python code/main_script.py -c config/config_file.yaml
 # Run testing using the configuration file
 python code/estimate_recs_trained_mdl.py -c config/config_file_trained_mdl.yaml
 ```
-
