@@ -22,7 +22,6 @@ params_config:
     num_mats: 1 # 0,1,... number of feature matrices to run for each recording
     k_folds: 5
     i_mat: 0 # 0,1,2,...num_mats-1. from which feature matrix to start from
-    year_th: 2015 # the oldest year of recordings to analyze
     valid_ratio: 0 # validation ratio from the training set. The validation data is selected from the last samples in the x and y data provided, before shuffling
     GPU_id: 0 #  0 or 1. on which GPU to run.
     gender: 'all' # 0 (=boys), 1 (=girls), 'all' in train set

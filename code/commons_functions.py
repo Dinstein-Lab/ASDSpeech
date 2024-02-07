@@ -73,6 +73,7 @@ def statisticcs_2_arrays(y1, y2):
     p = np.nan_to_num(np.round(p, 4))
     return RMSE, R, p, R_spear
 
+# =============================================================================
 def norm_data_by_mat(X, norm_method, transformer=[]):
     X = np.nan_to_num(X)      
     X_2D = X.reshape((X.shape[0]*X.shape[1]), X.shape[2])

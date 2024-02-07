@@ -22,14 +22,12 @@ class ReadData:
         self.data = loadmat(self.data_file_path) 
 
         self.target_score = target_score
-        self.year_th = config.get('year_th', 2015)
         self.unite_test_1st = config.get('unite_test_1st', False)
         self.unite_test = config.get('unite_test', False)
         self.plot_TF = config.get('plot_TF', False)
         self.fig_target_score_data = None
         self.i_mat = 0
-        self.CKs = dict()
-        self.dates = dict()
+        self.recs_ids = dict()
         self.feats_take = config.get('feats_take', 48)  # features to inlcude: -1 means all
         
         if "num_matrices" in self.data.keys():
@@ -41,10 +39,7 @@ class ReadData:
     def run_all(self):
         print("*Create dataframes:")
         self.data_df = self.create_dataFrame(self.data)
-        
-        print("Remove old recordings (< {}):".format( self.year_th))
-        self.remove_old_dates(year_th = self.year_th)
-        
+                
         # Take spesific/all gender:
         self.data_df = self.select_gender()
         
@@ -54,35 +49,22 @@ class ReadData:
         print("*Create X and y:")
         self.create_X_y_1mat()
                   
-        self.save_CKs_dates()  # 15.12.2021.
+        self.recs_ids = self.data_df["rec_id"]
         
         # Summary: Print datas shapes:
         self.print_data_shape()
         # Plots:
         if self.plot_TF == True:
-            self.visualize_dates()
             self.visualize_target_score()
     
     # =============================================================================================        
     def create_dataFrame(self, data):
-        data_list = {'CK': [np.fromstring(ck, sep='_')[0].astype('int64') for ck in data['CK']],
-                     'Date': [datetime.strptime(str(s),'%d-%m-%y').date() for s in data['record_date']],
+        data_list = {'rec_id': data['rec_id'],
                      self.target_score: np.squeeze(data[self.target_score].astype('int8')),
                      'Gender': np.squeeze(data["gender"]),
                      'Module': np.squeeze(data["module"])}
         return pd.DataFrame(data=data_list)
                 
-    # =============================================================================================
-    def remove_old_dates(self, year_th = 2019):
-        date_th = datetime.strptime(str(year_th),'%Y').date()         
-
-        idx_delete = []
-        for idx, rec_date in enumerate(self.data_df["Date"]):
-            if rec_date < date_th:
-                idx_delete.append(idx) 
-        if idx_delete:
-            self.data_df = self.data_df.drop(idx_delete, axis=0).reset_index(drop=True)
-            print('Removed: {} recs from data_df'.format(len(idx_delete)))
 
     # =============================================================================================            
     def select_gender(self):
@@ -121,22 +103,6 @@ class ReadData:
                                                  stop = self.data['features'].shape[0])]
         self.X = np.asarray([X[0][:, :self.feats_take] for X in self.X]) # 21.12.21 3D array
         self.y = np.asarray(self.data_df[self.target_score])
-    # =============================================================================================            
-    def save_CKs_dates(self):
-        self.CKs = self.data_df["CK"]
-        self.dates = self.data_df["Date"]
-    # =============================================================================================
-    def visualize_dates(self): # Visualize date vs target score
-        kwargs = dict(markersize = 12, 
-                      markeredgewidth=3) # 14.11.21
-        plt.figure(figsize=(15,6))
-        plt.plot(self.data_df["Date"], self.data_df[self.target_score], '+', 
-                 label='All data', **kwargs)       
-        plt.xlabel('Date')
-        plt.ylabel(self.target_score)
-        plt.legend(loc = 'best', fontsize='x-small')
-        self.fig_date_vs_score = plt.gcf()
-        # plt.show()
         
     # =============================================================================================
     def visualize_target_score(self): # Visualize distribution of the target scores in histogram

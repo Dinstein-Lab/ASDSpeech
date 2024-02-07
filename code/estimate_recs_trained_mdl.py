@@ -86,8 +86,6 @@ if __name__ == "__main__":
                 for i in range(2)]
     # Concatenate two tables one below other:
     df_all = pd.concat(evals_df, ignore_index=True)
-    # Convert 'Record_date' column to datetime type
-    df_all['Record_date'] = pd.to_datetime(df_all['Record_date'])
     
     # Get the min and max values of the target score:
     min_score, max_score = FindMinMaxScore(target_score_name=target_score).calculate_min_max()
@@ -106,13 +104,8 @@ if __name__ == "__main__":
     for test_set in test_sets:
         # Load the list of recordings of a time-point:
         test_set_recs = load_yaml(file_pointer=data_files_path / rf'{test_set}.yaml')
-        # Child Key:
-        cks = [int(rec_name.split("_")[0]) for rec_name in test_set_recs]
-        # Record data:
-        dates = [rec_name.split("_")[1] for rec_name in test_set_recs]
-        # Create a dataframe with child key and record data:
-        test_sets_df[test_set] = pd.DataFrame(
-            {"CK": cks, "Date": pd.to_datetime(dates, format='%d%m%y')})
+        # Create a dataframe with rec_id:
+        test_sets_df[test_set] = pd.DataFrame({"rec_id": test_set_recs})
 
     # Run for each Random_mat
     for mat_folder in mat_folders:
@@ -144,15 +137,14 @@ if __name__ == "__main__":
             for test_set in test_sets:
 
                 test_df = test_sets_df[test_set]
-                test_info_df = pd.merge(test_df, df_all, left_on=['CK', 'Date'],
-                                        right_on=['Child_Key', 'Record_date'], how='left')
+                test_info_df = pd.merge(test_df, df_all, 
+                                        left_on=['rec_id'], right_on=['rec_id'], how='left')
 
                 true_pred_score = []
                 true_pred_score_loaded = []
                 for _, row in test_info_df.iterrows():
-                    rec_name = "{}_{}".format(row["CK"], row["Date"].date().strftime("%d%m%y"))
                     # load features of a recording from the test dataset:
-                    feat_mat_rec = loadmat(data_files_path / f"{rec_name}.mat",
+                    feat_mat_rec = loadmat(data_files_path / f"{row['rec_id']}.mat",
                                            variable_names=["features"])
                     # Take the i_mat feature matrix:
                     features = np.asarray(feat_mat_rec["features"][i_mat - 1])[0]
@@ -169,7 +161,7 @@ if __name__ == "__main__":
                             np.round(model.predict(X_norm_3d, verbose=0) * max_score).astype('int'),
                             min_score, max_score))
                         # Append the results as dict to a list:
-                        true_pred_score.append({"CK": row["Child_Key"], "Date": row["Record_date"],
+                        true_pred_score.append({"rec_id": row["rec_id"], 
                                                 "y_true": score, "y_pred": score_pred})
                 # End of test_set.
                 # Convert to a long dataframe with all the recordings' predicted and actual values:

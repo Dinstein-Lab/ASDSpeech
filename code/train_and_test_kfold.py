@@ -22,7 +22,6 @@ from sklearn.utils import shuffle
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras import backend as K
 # from memory_profiler import profile
-from datetime import datetime
 from sklearn.model_selection import StratifiedKFold
 
 from hyper_tune import HyperTune
@@ -136,9 +135,7 @@ class TrainTestKFold:
         name_main_folder = '{}recs_{}folds'.format(n_recs, self.k_folds)
 
         # Create the save path: 
-        self.save_path = self.create_sub_save_path(name_main_folder) /\
-                         r"After_{}".format(self.params_config.get('year_th', [])) /\
-                             self.model_name
+        self.save_path = self.create_sub_save_path(name_main_folder) / self.model_name
 
         if os.path.isdir(self.save_path) is False:
             os.makedirs(self.save_path)
@@ -287,7 +284,7 @@ class TrainTestKFold:
                 X_train, X_test = data_class.X[train_idx], data_class.X[test_idx]
                 y_train, y_test = data_class.y[train_idx], data_class.y[test_idx]
                 CK_train, CK_test = data_class.CKs[train_idx], data_class.CKs[test_idx]
-                dates_train, dates_test = data_class.dates[train_idx], data_class.dates[test_idx]
+                
                 # Check if min y of train is not bigger than min y of test, same in max y:
                 if min(y_train) > min(y_test):
                     print('ERROR: minimum value of test is smaller than in train')
@@ -300,8 +297,8 @@ class TrainTestKFold:
                 print('*' * 50)
                 # Create dictionary with the datasets:
                 datas = {
-                    'train': {'X': X_train, 'y': y_train, 'CKs': CK_train, 'dates': dates_train},
-                    'test': {'X': X_test, 'y': y_test, 'CKs': CK_test, 'dates': dates_test}}
+                    'train': {'X': X_train, 'y': y_train, 'recs_ids': CK_train},
+                    'test': {'X': X_test, 'y': y_test, 'recs_ids': CK_test}}
 
                 # The path where to save the results of the fold:
                 save_path_fold = save_path_mat / r"Trial{}".format(fold + 1)
@@ -430,7 +427,7 @@ class TrainTestKFold:
     def save_for_split(self, datas_ys, results, datas, model, history, save_path):
         # Save pred-true txt file for each dataset:
         for key, ys in datas_ys.items():
-            self.save_pred_true(ys, datas[key]["CKs"], datas[key]["dates"], save_path, '_' + key)  
+            self.save_pred_true(ys, datas[key]["recs_ids"], save_path, '_' + key)  
 
         # Save parameters and results:
         self.save_parameters_results(save_path, model, history, results)
@@ -449,10 +446,9 @@ class TrainTestKFold:
 
     # =============================================================================================
     @staticmethod
-    def save_pred_true(ys, CKs, dates, save_path, sub_name):
+    def save_pred_true(ys, CKs, save_path, sub_name):
         # # Write predicted and ture scores into a txt file:
-        df = pd.DataFrame({'CK': np.squeeze(CKs),
-                           'Date': dates,
+        df = pd.DataFrame({'rec_id': np.squeeze(CKs),
                            'y_pred': np.squeeze(ys['y_pred']),
                            'y_true': np.squeeze(ys['y_true'])})
         df.to_csv(save_path / Path("Pred_true" + sub_name + ".txt"),
