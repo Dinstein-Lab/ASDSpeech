@@ -22,8 +22,6 @@ class ReadData:
         self.data = loadmat(self.data_file_path) 
 
         self.target_score = target_score
-        self.unite_test_1st = config.get('unite_test_1st', False)
-        self.unite_test = config.get('unite_test', False)
         self.plot_TF = config.get('plot_TF', False)
         self.fig_target_score_data = None
         self.i_mat = 0
