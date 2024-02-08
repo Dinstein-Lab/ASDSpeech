@@ -28,7 +28,6 @@ class HyperTune:
         self.save_path = tuning_params["save_path"]
         self.data_filename = tuning_params["data_filename"]
         self.cv = hyper_tune_config["cv_k"]  # number of kfolds in cross validation
-        self.search_type = hyper_tune_config["search_type"]  # Grid search ('grid') or Random serach ('rand')
         self.n_iters = hyper_tune_config["n_iters"]  # in RandomizedSearchCV: number of combinations to run
         self.params_idx = hyper_tune_config["params_idx"]
         self.statistic = hyper_tune_config["statistic"]  # the statistic to sort by/ choose the best CV: "RMSE"
