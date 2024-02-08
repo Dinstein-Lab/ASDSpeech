@@ -17,7 +17,7 @@ The features (feature matrix of size 100x49 per recording) are normalized using 
 
 ## Training
 
-This process includes 5-folds cross validation for each of the feature matrix, where each fold includes hyper-parameters tuning (learning rate, batch size, and number of epochs), testing the best parameters on the fifth fold, and performance evaluation using Pearson correlation, Root Mean Squared Error, Normalized RMSE, and Concordance Correlation Coefficient.
+This process includes 5-folds cross-validation for each of the feature matrices, where each fold includes hyper-parameters tuning (learning rate, batch size, and number of epochs), testing the best parameters on the fifth fold, and performance evaluation using Pearson correlation, Root Mean Squared Error, Normalized RMSE, and Concordance Correlation Coefficient.
 
 Code to run this part: `main_script.py`.
 
@@ -25,16 +25,16 @@ Code to run this part: `main_script.py`.
 
 This process includes the application of each trained model of each fold (5x5=25 models in total) on the two test datasets: Tim-point 1 and time-point 2. This step includes the estimation of the target score of each recording in in time-point and performance evaluation.
 
-Code to run this part: `estimate_recs_trained_mdl.py`.
+The code to run this part is `estimate_recs_trained_mdl.py`.
 
 # Run
 To make it run properly, clone this repository in a folder.
-From your command line go to ASE_audio folder and run the following python scripts:
+From your command line, go to ASE_audio/code folder and run the following python scripts:
 
 **Training**
 ``` python
 # Run training using the configuration file
-python code/main_script.py -c config/config_file.yaml
+python main_script.py -c ../config/config_file.yaml
 ```
 **Estimation/Prediction**
 ``` python
