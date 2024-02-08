@@ -59,7 +59,7 @@ class ReadData:
     
     # =============================================================================================        
     def create_dataFrame(self, data):
-        data_list = {'rec_id': data['rec_id'],
+        data_list = {'rec_id': [str(rec_id) for rec_id in data["rec_id"]],
                      self.target_score: np.squeeze(data[self.target_score].astype('int8')),
                      'Gender': np.squeeze(data["gender"]),
                      'Module': np.squeeze(data["module"])}

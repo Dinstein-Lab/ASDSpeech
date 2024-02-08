@@ -27,15 +27,12 @@ class HyperTune:
         self.param_grid = tuning_params["param_grid"]  # dict of the parameteres to tune
         self.save_path = tuning_params["save_path"]
         self.data_filename = tuning_params["data_filename"]
-        self.weights_cal = tuning_params.get("weights_cal", None)
-        self.eval_type = hyper_tune_config["n_per_score"]  # 1= evaluate by record. 2= evaluate by segment/matrix
         self.cv = hyper_tune_config["cv_k"]  # number of kfolds in cross validation
         self.search_type = hyper_tune_config["search_type"]  # Grid search ('grid') or Random serach ('rand')
         self.n_iters = hyper_tune_config["n_iters"]  # in RandomizedSearchCV: number of combinations to run
         self.params_idx = hyper_tune_config["params_idx"]
         self.statistic = hyper_tune_config["statistic"]  # the statistic to sort by/ choose the best CV: "RMSE"
         self.model_name = params_config["model_name"]
-        self.norm_type = params_config["data_norm_by"]
         self.norm_method = params_config["norm_method"]
         self.score_type = params_config["score_name"]  # ADOS
 

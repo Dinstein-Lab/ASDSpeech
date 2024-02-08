@@ -54,7 +54,7 @@ class TrainTestKFold:
         self.model_name = self.params_config['model_name']
         self.target_score = self.params_config['score_name']
         self.data_file_path = PROJECTS_DIR / self.paths_config['data_file_path']
-        self.num_mats = self.params_config.get('num_mats',1)  # number of feature matrices for each recording
+        self.num_mats_take = self.params_config["num_mats_take"]  # on how many matrices to run
         self.statistic = self.tune_params_config["statistic"]
         self.i_mat = self.params_config['i_mat']
         self.k_folds = self.params_config['k_folds']
@@ -174,6 +174,7 @@ class TrainTestKFold:
         Returns:
         None
         """
+        print(f"save_path_statistic={self.save_path_statistic}")
         if not os.path.exists(self.save_path_statistic): 
             os.makedirs(self.save_path_statistic)
         # Copy the configuration file to the save path:
@@ -271,7 +272,7 @@ class TrainTestKFold:
     def train_test_kfolds(self):
 
         # For each of the "10" feature matrices run "5" different data splits:
-        for i_mat in range(self.i_mat, self.num_mats):
+        for i_mat in range(self.i_mat, self.num_mats_take):
             save_path_mat = self.save_path / Path("Random_mat_{}".format(i_mat + 1))
             
             # Create one split of Train-Test for with one feature matrix for each recording:
@@ -283,7 +284,7 @@ class TrainTestKFold:
             for train_idx, test_idx in kf.split(data_class.X, data_class.y):  # for each fold:
                 X_train, X_test = data_class.X[train_idx], data_class.X[test_idx]
                 y_train, y_test = data_class.y[train_idx], data_class.y[test_idx]
-                CK_train, CK_test = data_class.CKs[train_idx], data_class.CKs[test_idx]
+                CK_train, CK_test = data_class.recs_ids[train_idx], data_class.recs_ids[test_idx]
                 
                 # Check if min y of train is not bigger than min y of test, same in max y:
                 if min(y_train) > min(y_test):

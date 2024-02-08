@@ -19,7 +19,7 @@ params_config:
     score_name: "ADOS"
     norm_method: "standard" # features normalization method. z-norm.
     feats_take: 49 # number of first featuress to take
-    num_mats: 1 # 0,1,... number of feature matrices to run for each recording
+    num_mats_take: 5 # on how much matrices to run
     k_folds: 5
     i_mat: 0 # 0,1,2,...num_mats-1. from which feature matrix to start from
     valid_ratio: 0 # validation ratio from the training set. The validation data is selected from the last samples in the x and y data provided, before shuffling
@@ -29,11 +29,10 @@ params_config:
     random_state: 1337
     
 hyper_tune_config:
-    calculate: 'tune' # tune, read (from the yaml file), or load (from the excel file)
+    calculate: 'tune' # tune, read (from the yaml file), or load (from the ready excel file)
     params_idx: 1 # 1,2,...,n_iters
     cv_k: 4 # number of folds to run the search tuning
-    n_iters: 5 # number of combinations to check
-    n_per_score: 1 # 1= evaluate by record.
+    n_iters: 2 # number of combinations to check
     search_type: "rand"
     statistic: "CCC"
     batch_size:
