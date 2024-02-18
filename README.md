@@ -12,7 +12,7 @@ This algorithm aims to estimate autism severity from audio signals. This is done
 •	`./results`: includes all the trained models for each target score (SA, RRB, total ADOS) for each iteration (model and weights) and the estimated scores (.txt files).
 
 ## Data
-The database included in this work consists of 136 children who participated in a single ADOS-2 assessment and 61 children who participated in two ADOS-2 assessments separated by 1–2 years (two recordings each), yielding 258 ADOS-2 assessments in total. All ADOS-2 assessments were performed by a clinician with research reliability. In addition, all participating children had ASD diagnoses confirmed by a developmental psychologist, child psychiatrist, or pediatric neurologist, according to the criteria in the Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5). Informed consent was obtained from all parents, and the SUMC Helsinki committee approved the study.
+The database included in this work consists of 136 children who participated in a single ADOS-2 assessment and 61 children who participated in two ADOS-2 assessments separated by 1–2 years (two recordings each), yielding 258 ADOS-2 assessments in total. All ADOS-2 assessments were performed by a clinician with research reliability. In addition, all participating children had ASD diagnoses confirmed by a developmental psychologist, child psychiatrist, or pediatric neurologist, according to the criteria in the Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5). 
 
 ## Recording setup
 
