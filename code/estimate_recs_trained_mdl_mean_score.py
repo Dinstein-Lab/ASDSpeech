@@ -215,5 +215,5 @@ if __name__ == "__main__":
         nrmse = rmse / (max_score - min_score)
         CCC = CalcCCC(merged_df[test_set].y_true,
                       merged_df[test_set].mean_y_pred).calc_metric()
-        print(f"r({len(merged_df[test_set])-2}) = {R_pear:.3f}, p-value={p_pear:.4f}")
-        print(f"NRMSE = {nrmse:.3f}\nCCC={CCC:.4f}")
+        print(f"{test_set}:\nPearson r({len(merged_df[test_set])-2}) = {R_pear:.3f}, p-value={p_pear:.4f}")
+        print(f"Pearson NRMSE = {nrmse:.3f}\nCCC={CCC:.4f}\n")
