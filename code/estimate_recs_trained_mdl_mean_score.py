@@ -83,11 +83,12 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = str(config_dict["GPU_id"])
     save_results_pred_true = config_dict["save_results_pred_true"]
 
-    evals_df = [pd.read_excel(data_files_path / Path(rf"data_T{i + 1}_info.xlsx"))
+    evals_df = [pd.read_excel(data_files_path / Path(rf"data_T{i + 1}.xlsx"))
                 for i in range(2)]
     # Concatenate two tables one below other:
     df_all = pd.concat(evals_df, ignore_index=True)
-
+    df_all['rec_id'] = df_all['rec_id'].astype(str)
+    
     # Get the min and max values of the target score:
     min_score, max_score = FindMinMaxScore(target_score_name=target_score).calculate_min_max()
     # Get a list of folder names in the specified directory
@@ -131,7 +132,7 @@ if __name__ == "__main__":
             dest_path = full_mat_path / fold_folder / statistic
             # Load the trained model:
             model = load_model_weights(path=dest_path)
-            print("Trained model loaded.")
+            print("*** Trained model loaded. ***")
             # Load normalization transformer:
             with open(dest_path / "Transformer.pkl", 'rb') as f:
                 transformer = pickle.load(f)[0]
@@ -140,15 +141,18 @@ if __name__ == "__main__":
             for test_set in test_sets:
 
                 test_df = test_sets_df[test_set]
+                test_df['rec_id'] = test_df['rec_id'].astype(str)
+
                 test_info_df = pd.merge(test_df, df_all,
-                                        left_on=['rec_id'], right_on=['rec_id'], how='left')
+                                        left_on=['rec_id'], right_on=['rec_id'],
+                                        how='left')
                 true_pred_score = []
                 true_pred_score_loaded = []
                 for i_rec, row in test_info_df.iterrows():
                     # load features of a recording from the test dataset:
                     feat_mat_rec = loadmat(data_files_path / f"{row['rec_id']}.mat",
                                            variable_names=["features"])
-                    print("features file of rec {i_rec}/{len(test_info_df)} was loaded")
+                    print(f"Features file of rec {i_rec+1}/{len(test_info_df)} was loaded")
                     # Take the i_mat feature matrix:
                     features = np.asarray(feat_mat_rec["features"][i_mat - 1])[0]
                     if features.any():
