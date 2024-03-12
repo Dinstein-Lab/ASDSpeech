@@ -167,10 +167,11 @@ if __name__ == "__main__":
                         score_pred = np.squeeze(np.clip(
                             np.round(model.predict(X_norm_3d, verbose=0) * max_score).astype('int'),
                             min_score, max_score))
+                        # score_pred = np.clip(model.predict(X_norm_3d, verbose=0) * max_score, min_score, max_score)
                         # Append the results as dict to a list:•
                         true_pred_score.append({"rec_id": row["rec_id"],
                                                 "y_true": score,
-                                                f"y_pred_{i_iter + 1}": score_pred})
+                                                f"y_pred_{i_iter}": score_pred})
                 print(f"Done iteration: {i_iter}, time-point: {test_set}")
                 # Convert to a long dataframe with all the recordings' predicted and actual values:
                 dfs_true_pred[test_set].append(pd.DataFrame.from_dict(true_pred_score))
@@ -189,8 +190,6 @@ if __name__ == "__main__":
 
         # Loop through the remaining dataframes and merge them one by one
         for df in dfs_true_pred[test_set][1:]:
-            merged_df[test_set] = pd.merge(merged_df[test_set], df,
-                                             on=['rec_id', 'y_true'])
             # Extract columns starting with 'y_pred_'
             y_pred_columns = df.filter(like='y_pred_').columns.tolist()
             
@@ -198,7 +197,8 @@ if __name__ == "__main__":
             selected_columns = ['rec_id', 'y_true'] + y_pred_columns
             
             # Merge DataFrames based on selected columns
-            merged_df[test_set] = pd.merge(merged_df[test_set], df[selected_columns], on=['rec_id', 'y_true'])
+            merged_df[test_set] = pd.merge(merged_df[test_set],
+                                           df[selected_columns], on=['rec_id', 'y_true'])
             
         # Select only the columns with 'y_pred_' prefix for mean calculation
         y_pred_columns = merged_df[test_set].filter(like='y_pred_')
