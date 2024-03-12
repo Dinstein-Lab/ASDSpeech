@@ -110,7 +110,7 @@ if __name__ == "__main__":
         test_sets_df[test_set] = pd.DataFrame({"rec_id": test_set_recs})
     i_iter = 1  # idx of the running iteration (model)
 
-    dfs_true_pred = {time_point: [] for time_point in test_sets}
+    dfs_true_pred = {test_set: [] for test_set in test_sets}
     # Run for each Random_mat (feature mat):
     for mat_folder in mat_folders:
         # Get the number of the feature mat:
@@ -167,11 +167,11 @@ if __name__ == "__main__":
                         score_pred = np.squeeze(np.clip(
                             np.round(model.predict(X_norm_3d, verbose=0) * max_score).astype('int'),
                             min_score, max_score))
-                        # Append the results as dict to a list:
+                        # Append the results as dict to a list:•
                         true_pred_score.append({"rec_id": row["rec_id"],
                                                 "y_true": score,
-                                                "f'y_pred_{i_iter + 1}'}": score_pred})
-                print(f"Done {i_iter} time-point {test_set}")
+                                                f"y_pred_{i_iter + 1}": score_pred})
+                print(f"Done iteration: {i_iter}, time-point: {test_set}")
                 # Convert to a long dataframe with all the recordings' predicted and actual values:
                 dfs_true_pred[test_set].append(pd.DataFrame.from_dict(true_pred_score))
                 # End of a test_set.
@@ -181,30 +181,30 @@ if __name__ == "__main__":
         # End of a feature mat.
 
     # Calculate the mean estimated score for each child and calculate performance:
-    merged_df = {time_point: [] for time_point in test_sets}
-    for time_point in test_sets:
+    merged_df = {test_set: [] for test_set in test_sets}
+    for test_set in test_sets:
         # Start with the first dataframe
-        merged_df[time_point] = dfs_true_pred[time_point][0][['CK', 'Date', 'y_true'] +
-                                                             dfs_true_pred[0].filter(like='y_pred_').columns.tolist()]
+        merged_df[test_set] = dfs_true_pred[test_set][0][['rec_id', 'y_true'] +
+                                                         dfs_true_pred[test_set][0].filter(like='y_pred_').columns.tolist()]
 
         # Loop through the remaining dataframes and merge them one by one
-        for df in dfs_true_pred[time_point][1:]:
-            merged_df[time_point] = pd.merge(merged_df[time_point], df,
-                                             on=['CK', 'Date', 'y_true'])
+        for df in dfs_true_pred[test_set][1:]:
+            merged_df[test_set] = pd.merge(merged_df[test_set], df,
+                                             on=['rec_id', 'y_true'])
             # Extract columns starting with 'y_pred_'
             y_pred_columns = df.filter(like='y_pred_').columns.tolist()
             
             # Extract columns 'CK', 'Date', 'y_true' and those starting with 'y_pred_'
-            selected_columns = ['CK', 'Date', 'y_true'] + y_pred_columns
+            selected_columns = ['rec_id', 'y_true'] + y_pred_columns
             
             # Merge DataFrames based on selected columns
-            merged_df = pd.merge(merged_df, df[selected_columns], on=['CK', 'Date', 'y_true'])
+            merged_df[test_set] = pd.merge(merged_df[test_set], df[selected_columns], on=['rec_id', 'y_true'])
             
         # Select only the columns with 'y_pred_' prefix for mean calculation
-        y_pred_columns = merged_df.filter(like='y_pred_')
+        y_pred_columns = merged_df[test_set].filter(like='y_pred_')
         
         # Add a new column 'mean_y_pred' with the mean value across all 'y_pred_' columns
-        merged_df['mean_y_pred'] = np.round(y_pred_columns.mean(axis=1))
+        merged_df[test_set]['mean_y_pred'] = np.round(y_pred_columns.mean(axis=1))
 
         # Calculate performance:
         R_pear, p_pear = stats.pearsonr(merged_df[test_set].y_true,
