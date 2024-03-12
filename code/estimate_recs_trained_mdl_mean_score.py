@@ -109,7 +109,7 @@ if __name__ == "__main__":
         test_sets_df[test_set] = pd.DataFrame({"rec_id": test_set_recs})
     i_iter = 1  # idx of the running iteration (model)
 
-    dfs_true_pred = {time_point: [] for _, time_point in test_sets}
+    dfs_true_pred = {time_point: [] for time_point in test_sets}
     # Run for each Random_mat (feature mat):
     for mat_folder in mat_folders:
         # Get the number of the feature mat:
@@ -177,7 +177,7 @@ if __name__ == "__main__":
         # End of a feature mat.
 
     # Calculate the mean estimated score for each child and calculate performance:
-    merged_df = {time_point: [] for _, time_point in test_sets}
+    merged_df = {time_point: [] for time_point in test_sets}
     for time_point in test_sets:
         # Start with the first dataframe
         merged_df[time_point] = dfs_true_pred[time_point][0][['CK', 'Date', 'y_true'] +
