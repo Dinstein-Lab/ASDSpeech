@@ -46,5 +46,5 @@ python main_script.py -c ../config/config_file.yaml
 **Estimation/Prediction**
 ``` python
 # Run testing using the configuration file
-python code/estimate_recs_trained_mdl.py -c config/config_file_trained_mdl.yaml
+python estimate_recs_trained_mdl.py -c ../config/config_file_trained_mdl.yaml
 ```
