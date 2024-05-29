@@ -41,7 +41,7 @@ From your command line, go to ASE_audio/code folder and run the following python
 **Training**
 ``` python
 # Run training using the configuration file
-python main_script.py -c ../config/config_file.yaml
+python code/main_script.py -c ../config/config_file.yaml
 ```
 **Estimation/Prediction**
 ``` python
