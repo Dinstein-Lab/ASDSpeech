@@ -41,10 +41,10 @@ From your command line, go to ASE_audio/code folder and run the following python
 **Training**
 ``` python
 # Run training using the configuration file
-python code/main_script.py -c ../config/config_file.yaml
+python main_script.py -c ../config/config_file.yaml
 ```
 **Estimation/Prediction**
 ``` python
 # Run testing using the configuration file
-python code/estimate_recs_trained_mdl.py -c config/config_file_trained_mdl.yaml
+python estimate_recs_trained_mdl.py -c ../config/config_file_trained_mdl.yaml
 ```
