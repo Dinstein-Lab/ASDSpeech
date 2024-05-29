@@ -48,3 +48,9 @@ python main_script.py -c ../config/config_file.yaml
 # Run testing using the configuration file
 python estimate_recs_trained_mdl.py -c ../config/config_file_trained_mdl.yaml
 ```
+
+Get mean score across all trained models:
+``` python
+# Run testing using the configuration file
+python estimate_recs_trained_mdl_mean_score.py.py -c ../config/config_file_trained_mdl.yaml
+```
