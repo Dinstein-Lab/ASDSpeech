@@ -137,6 +137,8 @@ if __name__ == "__main__":
             for test_set in test_sets:
 
                 test_df = test_sets_df[test_set]
+                test_df['rec_id'] = test_df['rec_id'].astype(str)
+                
                 test_info_df = pd.merge(test_df, df_all, 
                                         left_on=['rec_id'], right_on=['rec_id'], how='left')
 
