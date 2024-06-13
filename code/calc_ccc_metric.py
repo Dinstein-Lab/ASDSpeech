@@ -25,12 +25,12 @@ class CalcCCC:
         epsilon = np.finfo(float).eps
         # Covariance between y_true and y_pred
         s_xy = np.dot((self.y_ture - np.mean(self.y_ture)), (self.y_pred - np.mean(self.y_pred))) / \
-               (N - 1.0 + epsilon)
+               (N - 1.0)
         # Means
         x_m = np.mean(self.y_ture)
         y_m = np.mean(self.y_pred)
         # Variances
-        s_x_sq = np.var(self.y_ture)
-        s_y_sq = np.var(self.y_pred)
+        s_x_sq = np.var(self.y_ture, ddof=1)
+        s_y_sq = np.var(self.y_pred, ddof=1)
 
         return (2.0 * s_xy) / (s_x_sq + s_y_sq + (x_m - y_m) ** 2)
