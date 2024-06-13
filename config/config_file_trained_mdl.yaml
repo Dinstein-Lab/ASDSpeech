@@ -1,10 +1,9 @@
-trained_mdl_path: 'ADOS_prediction/136recs_5folds/After_2015/CNN_mdl' # write here the path where the traine model is saved. example: ...\ASE_feats\results\RRB_prediction\After_2015\CNN_mdl\Random_mat_1\Trial1\Best_CCC
+trained_mdl_path: 'trained_models/RRB_prediction/136recs_5folds/CNN_mdl' # write here the path where the traine model is saved. example: ...\ASE_feats\results\RRB_prediction\After_2015\CNN_mdl\Random_mat_1\Trial1\Best_CCC
 model_name: "CNN_mdl" # The model'n name
 data_norm_by: "mat"
 norm_method: "standard"
 feats_take: 49 # number of first featuress to take
 GPU_id: 0 #  0 or 1. on which GPU to run.
-target_score: 'ADOS'
 statistic: "CCC"
 save_results_pred_true: False # if to save the estimated and the actual scores to txt file for each iteration
 save_mean_results: False # If save the final average results across features mats and folds

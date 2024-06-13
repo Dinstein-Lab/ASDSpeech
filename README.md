@@ -1,6 +1,6 @@
 # ASDSpeech
 
-This algorithm aims to estimate autism severity from audio signals. This is done by training a convolutional neural network on Autism Diagnostic Observation Schedule 2nd edition (ADOS-2) recordings of 136 children using acoustic and conversational hand-crafted features. The algorithm is tested on independent recordings from 61 additional children who completed two ADOS-2 assessments, separated by 1-2 years.
+This algorithm estimates autism severity from speech recordings. The algorithm is based on a convolutional neural network that was trained with speech recordings of Autism Diagnostic Observation Schedule, 2nd edition (ADOS-2) assessments from 136 children with autism. Speech segments of the children were manually annotated, individual vocalizations were separated, and a set of 49 accoustic and conversational features were extracted. The algorithm was tested on independent recordings from 61 additional children with autism who completed two ADOS-2 assessments, separated by 1-2 years.
 
 ## Folders organization
 •	`./code`: python files that are used to train the model (`.code/main_script.py`) and test the two time-points datasets (`./code/estimate_recs_trained_mdl.py`).
@@ -12,7 +12,7 @@ This algorithm aims to estimate autism severity from audio signals. This is done
 •	`./results`: includes all the trained models for each target score (SA, RRB, total ADOS) for each iteration (model and weights) and the estimated scores (.txt files).
 
 ## Data
-The database included in this work consists of 136 children who participated in a single ADOS-2 assessment and 61 children who participated in two ADOS-2 assessments separated by 1–2 years (two recordings each), yielding 258 ADOS-2 assessments in total. All ADOS-2 assessments were performed by a clinician with research reliability. In addition, all participating children had ASD diagnoses confirmed by a developmental psychologist, child psychiatrist, or pediatric neurologist, according to the criteria in the Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5). 
+The database includes matrices of the features extracted from the 136 children who participated in a single ADOS-2 assessment and 61 children who participated in two ADOS-2 assessments separated by 1–2 years (two recordings each), yielding 258 ADOS-2 assessments in total. All ADOS-2 assessments were performed by a clinician with research reliability. In addition, all participating children had ASD diagnoses confirmed by a developmental psychologist, child psychiatrist, or pediatric neurologist, according to the criteria in the Diagnostic and Statistical Manual of Mental Disorders, Fifth Edition (DSM-5). 
 
 ## Recording setup
 
@@ -20,7 +20,7 @@ All recordings were performed during ADOS-2 assessments using a single microphon
 
 ## Data pre-processing
 
-The features (feature matrix of size 100x49 per recording) are normalized using the z-norm method (zero mean and unit variance), where the normalization is applied per feature on the whole train dataset, and the same mean and standard deviation are used to normalize the test datasets. In this paper, we applied five feature matrices for each child. We extracted 49 features of speech from each ADOS-2 recording. These included acoustic features (e.g., pitch, jitter, formants, bandwidth, energy, voicing, and spectral slope) and conversational features (e.g., mean vocalization duration and total number of vocalizations). 
+The features (feature matrix of size 100x49 per recording) are normalized using the z-norm method (zero mean and unit variance), where the normalization is applied per feature on the whole train dataset, and the same mean and standard deviation are used to normalize the test datasets. We extracted five different feature matrices for each child by randomly selecting different subsets of vocalizations. We extracted 49 features of speech from each ADOS-2 recording. These included acoustic features (e.g., pitch, jitter, formants, bandwidth, energy, voicing, and spectral slope) and conversational features (e.g., mean vocalization duration and total number of vocalizations). 
 
 ## Training
 
@@ -46,5 +46,10 @@ python main_script.py -c ../config/config_file.yaml
 **Estimation/Prediction**
 ``` python
 # Run testing using the configuration file
-python code/estimate_recs_trained_mdl.py -c config/config_file_trained_mdl.yaml
+python estimate_recs_trained_mdl.py -c ../config/config_file_trained_mdl.yaml
+```
+
+Get mean score across all trained models:
+``` python
+python estimate_recs_trained_mdl_mean_score.py -c ../config/config_file_trained_mdl.yaml
 ```

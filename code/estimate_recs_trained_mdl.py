@@ -82,7 +82,7 @@ if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = str(config_dict["GPU_id"])
     save_results_pred_true = config_dict["save_results_pred_true"] 
 
-    evals_df = [pd.read_excel(data_files_path / Path(rf"data_T{i+1}_info.xlsx"))
+    evals_df = [pd.read_excel(data_files_path / Path(rf"data_T{i+1}.xlsx"))
                 for i in range(2)]
     # Concatenate two tables one below other:
     df_all = pd.concat(evals_df, ignore_index=True)
@@ -137,6 +137,8 @@ if __name__ == "__main__":
             for test_set in test_sets:
 
                 test_df = test_sets_df[test_set]
+                test_df['rec_id'] = test_df['rec_id'].astype(str)
+                
                 test_info_df = pd.merge(test_df, df_all, 
                                         left_on=['rec_id'], right_on=['rec_id'], how='left')
 
