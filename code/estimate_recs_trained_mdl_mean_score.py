@@ -161,7 +161,7 @@ if __name__ == "__main__":
                         # Normalize the feature matrix using loaded normalization transformer:
                         X_no_nan = np.nan_to_num(features)
                         X_norm = transformer.transform(X_no_nan)
-                        # Convert to 3d matrix: 1x49x100
+                        # Convert to 3d matrix: 1x100x49
                         X_norm_3d = np.expand_dims(X_norm, axis=0)
                         # Predict score using trained model:
                         score_pred = np.squeeze(np.clip(
