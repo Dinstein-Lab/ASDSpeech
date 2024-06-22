@@ -17,6 +17,8 @@ path_recs = r'D:\Autism\Database\recs_no_pitch'
 save_path = r'D:\Autism\Database\Pitch_formants_voicing'  # path_recs
 pitch_floor = 60 # Hz
 pitch_ceiling = 1600 # Hz
+time_step = 0.01 # sec
+window_length = 0.04 # sec
 
 list_recs_file = []
 # %% 
@@ -37,7 +39,9 @@ for rec in recs:
             'rec_name': rec,
             'save_path': save_path,
             'pitch_floor': pitch_floor,
-            'pitch_ceiling': pitch_ceiling}
+            'pitch_ceiling': pitch_ceiling,
+            'time_step': time_step,
+            'window_length': window_length}
     
 
     main(args)

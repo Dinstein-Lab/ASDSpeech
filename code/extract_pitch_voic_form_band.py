@@ -32,6 +32,10 @@ def get_parser():
                       help="The lowest pitch value", action="store")
     parser.add_option("-pc", "--pitch_ceiling", dest="pitch_ceiling",
                       help="The highest pitch value", action="store")
+    parser.add_option("-ts", "--time_step", dest="time_step",
+                      help="The time step", action="store")
+    parser.add_option("-wl", "--window_length", dest="window_length",
+                      help="The window length", action="store")
     
     return parser
 
@@ -44,6 +48,8 @@ def main(param_dict):
     rec_name = param_dict["rec_name"]
     pitch_floor = param_dict.get("pitch_floor", 60)
     pitch_ceiling = param_dict.get("pitch_ceiling", 1600)
+    time_step = param_dict.get('time_step', 0.01)
+    window_length = param_dict('window_length', 0.04)
     
     out_txt1 = "{}\\pitch_{}".format(save_path, rec_name.replace("wav", "txt"))
     out_txt2 = out_txt1.replace("pitch", "voicing")
@@ -56,7 +62,7 @@ def main(param_dict):
 
     print("Running pitch and voicing extraction for {}".format(rec_name))
 
-    my_pitch = snd.to_pitch(time_step=0.01, pitch_floor=pitch_floor, pitch_ceiling=pitch_ceiling)
+    my_pitch = snd.to_pitch(time_step=time_step, pitch_floor=pitch_floor, pitch_ceiling=pitch_ceiling)
     for i in range(1, my_pitch.n_frames + 1):
         frame = my_pitch.get_frame(i)
         f0 = frame.selected.frequency
@@ -73,7 +79,7 @@ def main(param_dict):
     w2.close()
 
     print("Running formants and bandwidths extraction for {}".format(rec_name))
-    my_formants = snd.to_formant_burg(time_step=0.01, window_length=0.04)
+    my_formants = snd.to_formant_burg(time_step=time_step, window_length=window_length)
     for t in my_pitch.xs():
         f1 = my_formants.get_value_at_time(1, t)
         f2 = my_formants.get_value_at_time(2, t)
@@ -97,5 +103,7 @@ if __name__ == "__main__":
     param_dict["save_path"] = options.save_path
     param_dict["pitch_floor"] = options.pitch_floor
     param_dict["pitch_ceiling"] = options.pitch_ceiling
-
+    param_dict["time_step"] = options.time_step
+    param_dict["window_length"] = options.window_length
+    
     main(param_dict)
