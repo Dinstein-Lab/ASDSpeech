@@ -24,7 +24,7 @@ The features (feature matrix of size 100x49 per recording) are normalized using 
 
 To generate the features from your recording(s):
 1. Navigate to `feature_extraction`
-2. Open the `main_run_pitch_extraction_recs.py` and modify the `path_recs` and `save_path` to your specific paths. Adjust the pitch floor and ceiling to Your desired frequencies.
+2. Open the `main_run_pitch_extraction_recs.py` and modify the `path_recs` and `save_path` to your specific paths. Adjust the pitch floor and ceiling to Your desired frequencies. This will extract pitch, two first formants and their bandwidths, and voicing of the pitch (the amplitude). The pitch values will be saved in the `Pitch` folder in a file named `pitch_<rec_name>.txt`. The formants and their bandwidths will be saved in the `Formants` folder in one file named `formants_<rec_name>.txt`. The voicing values will be saved in the `Voicing` folder in a file named `voicing_<rec_name>.txt`.
 3. Install the feature extraction algorithm app, based on Matlab software, by running the `MyAppInstaller_web.exe`.
 4. Launch the installed app.
 5. Refer TO `Manual_feature_extraction_app.docx` for instructions on how to operate the app.
