@@ -22,6 +22,12 @@ All recordings were performed during ADOS-2 assessments using a single microphon
 
 The features (feature matrix of size 100x49 per recording) are normalized using the z-norm method (zero mean and unit variance), where the normalization is applied per feature on the whole train dataset, and the same mean and standard deviation are used to normalize the test datasets. We extracted five different feature matrices for each child by randomly selecting different subsets of vocalizations. We extracted 49 features of speech from each ADOS-2 recording. These included acoustic features (e.g., pitch, jitter, formants, bandwidth, energy, voicing, and spectral slope) and conversational features (e.g., mean vocalization duration and total number of vocalizations). 
 
+To generate the features from your recording/s:
+1. Go to 'feature_extraction'
+2. Open the 'main_run_pitch_extraction_recs.py' and change the 'path_recs' and 'save_path' to your paths. Change the pitch floor and ceiling to tour desired frequencies.
+3. Install the app of the feature extraction algorithm, based on Matlab software, by running the MyAppInstaller_web.exe.
+
+
 ## Training
 
 This process includes 5-fold cross-validation for each of the feature matrices, where each fold includes hyper-parameters tuning (learning rate, batch size, and number of epochs), testing the best parameters on the fifth fold, and performance evaluation using Pearson correlation, Root Mean Squared Error, Normalized RMSE, and Concordance Correlation Coefficient.
