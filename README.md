@@ -23,11 +23,12 @@ All recordings were performed during ADOS-2 assessments using a single microphon
 The features (feature matrix of size 100x49 per recording) are normalized using the z-norm method (zero mean and unit variance), where the normalization is applied per feature on the whole train dataset, and the same mean and standard deviation are used to normalize the test datasets. We extracted five different feature matrices for each child by randomly selecting different subsets of vocalizations. We extracted 49 features of speech from each ADOS-2 recording. These included acoustic features (e.g., pitch, jitter, formants, bandwidth, energy, voicing, and spectral slope) and conversational features (e.g., mean vocalization duration and total number of vocalizations). 
 
 To generate the features from your recording(s):
-1. Navigate to `feature_extraction`
-2. Open the `main_run_pitch_extraction_recs.py` and modify the `path_recs` and `save_path` to your specific paths. Adjust the pitch floor and ceiling to Your desired frequencies. This will extract pitch, two first formants and their bandwidths, and voicing of the pitch (the amplitude). The pitch values will be saved in the `Pitch` folder in a file named `pitch_<rec_name>.txt`. The formants and their bandwidths will be saved in the `Formants` folder in one file named `formants_<rec_name>.txt`. The voicing values will be saved in the `Voicing` folder in a file named `voicing_<rec_name>.txt`.
-3. Install the feature extraction algorithm app, based on Matlab software, by running the `MyAppInstaller_web.exe`.
-4. Launch the installed app.
-5. Refer to `Manual_feature_extraction_app.docx` for instructions on how to operate the app.
+1. Navigate to `feature_extraction` folder.
+2. Extract pitch+formants+bandwidths+voicing values:
+   Open the `main_run_pitch_extraction_recs.py` and modify the `path_recs` and `save_path` to your specific paths. Adjust the pitch floor and ceiling to Your desired frequencies. This will extract pitch, two first formants and their bandwidths, and voicing of the pitch     (the amplitude). The pitch values will be saved in the `Pitch` folder in a file named `pitch_<rec_name>.txt`. The formants and their bandwidths will be saved in the `Formants` folder in one file named `formants_<rec_name>.txt`. The voicing values will be saved in the    `Voicing` folder in a file named `voicing_<rec_name>.txt`.
+4. Install the feature extraction algorithm app (based on Matlab software), by running the `MyAppInstaller_web.exe`.
+5. Launch the installed app.
+6. Refer to `ASDspeech feature extraction app manual.pdf` for instructions on operating the app.
 
 ## Training
 
