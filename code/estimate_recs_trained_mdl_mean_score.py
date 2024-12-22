@@ -148,6 +148,7 @@ if __name__ == "__main__":
                                         how='left')
                 true_pred_score = []
                 true_pred_score_loaded = []
+                X_3d_recs = []
                 for i_rec, row in test_info_df.iterrows():
                     # load features of a recording from the test dataset:
                     feat_mat_rec = loadmat(data_files_path / f"{row['rec_id']}.mat",
@@ -163,15 +164,18 @@ if __name__ == "__main__":
                         X_norm = transformer.transform(X_no_nan)
                         # Convert to 3d matrix: 1x100x49
                         X_norm_3d = np.expand_dims(X_norm, axis=0)
-                        # Predict score using trained model:
-                        score_pred = np.squeeze(np.clip(
-                            np.round(model.predict(X_norm_3d, verbose=0) * max_score).astype('int'),
-                            min_score, max_score))
-                        # score_pred = np.clip(model.predict(X_norm_3d, verbose=0) * max_score, min_score, max_score)
-                        # Append the results as dict to a list:•
-                        true_pred_score.append({"rec_id": row["rec_id"],
-                                                "y_true": score,
-                                                f"y_pred_{i_iter}": score_pred})
+                        # Append to list of feature matrices:
+                        X_3d_recs.append(X_norm_3d)
+                # Concatenate feature matrices vertically:
+                x_3d_stack = np.vstack(X_3d_recs)
+                # Predict scores using trained model on the whole batch of recordings:
+                scores_pred = np.squeeze(np.clip(
+                    np.round(model.predict(x_3d_stack, verbose=0) * max_score).astype('int'),
+                    min_score, max_score))
+                # Append the results as dict to a list:•
+                true_pred_score = {"rec_id": list(test_info_df["rec_id"]),
+                                   "y_true": list(test_info_df[target_score]),
+                                   f"y_pred_{i_iter}": scores_pred}
                 print(f"Done iteration: {i_iter}, time-point: {test_set}")
                 # Convert to a long dataframe with all the recordings' predicted and actual values:
                 dfs_true_pred[test_set].append(pd.DataFrame.from_dict(true_pred_score))
@@ -197,8 +201,7 @@ if __name__ == "__main__":
             selected_columns = ['rec_id', 'y_true'] + y_pred_columns
             
             # Merge DataFrames based on selected columns
-            merged_df[test_set] = pd.merge(merged_df[test_set],
-                                           df[selected_columns], on=['rec_id', 'y_true'])
+            merged_df[test_set] = pd.merge(merged_df[test_set], df[selected_columns], on=['rec_id', 'y_true'])
             
         # Select only the columns with 'y_pred_' prefix for mean calculation
         y_pred_columns = merged_df[test_set].filter(like='y_pred_')

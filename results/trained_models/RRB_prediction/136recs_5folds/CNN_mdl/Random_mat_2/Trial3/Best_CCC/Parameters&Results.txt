@@ -28,23 +28,23 @@ Total params: 1,190,785
 Trainable params: 1,190,785
 Non-trainable params: 0
 _________________________________________________________________
-Batch size = 64
-learn rate = 0.01
-Num epochs = 49
+Batch size = 16
+learn rate = 0.0005
+Num epochs = 154
 
 train:
-RMSE:1.6919
-R:0.4441
+RMSE:0.0958
+R:0.9987
 p:0.0
-R_spear:0.3851
-NRMSE:0.2115
-CCC:0.3210948337061097
+R_spear:0.9991
+NRMSE:0.012
+CCC:0.9987089911809317
 
 
 test:
-RMSE:2.0367
-R:0.0641
-p:0.7509
-R_spear:0.0713
-NRMSE:0.2546
-CCC:0.04469328140214215
+RMSE:1.9532
+R:0.2272
+p:0.2545
+R_spear:0.2032
+NRMSE:0.2442
+CCC:0.15414993004468114

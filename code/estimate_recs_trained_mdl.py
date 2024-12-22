@@ -144,10 +144,10 @@ if __name__ == "__main__":
 
                 true_pred_score = []
                 true_pred_score_loaded = []
+                X_3d_recs = []
                 for _, row in test_info_df.iterrows():
                     # load features of a recording from the test dataset:
-                    feat_mat_rec = loadmat(data_files_path / f"{row['rec_id']}.mat",
-                                           variable_names=["features"])
+                    feat_mat_rec = loadmat(data_files_path / f"{row['rec_id']}.mat", variable_names=["features"])
                     # Take the i_mat feature matrix:
                     features = np.asarray(feat_mat_rec["features"][i_mat - 1])[0]
                     if features.any():
@@ -158,13 +158,18 @@ if __name__ == "__main__":
                         X_norm = transformer.transform(X_no_nan)
                         # Convert to 3d matrix: 1x49x100
                         X_norm_3d = np.expand_dims(X_norm, axis=0)
-                        # Predict score using trained model:
-                        score_pred = np.squeeze(np.clip(
-                            np.round(model.predict(X_norm_3d, verbose=0) * max_score).astype('int'),
-                            min_score, max_score))
-                        # Append the results as dict to a list:
-                        true_pred_score.append({"rec_id": row["rec_id"], 
-                                                "y_true": score, "y_pred": score_pred})
+                        # Append to list of feature matrices:
+                        X_3d_recs.append(X_norm_3d)
+                # Concatenate feature matrices vertically:
+                x_3d_stack = np.vstack(X_3d_recs)
+                # Predict score using trained model:
+                scores_pred = np.squeeze(np.clip(
+                    np.round(model.predict(x_3d_stack, verbose=0) * max_score).astype('int'),
+                    min_score, max_score))
+                # Append the results as dict to a list:
+                true_pred_score = {"rec_id": list(test_info_df["rec_id"]),
+                                    "y_true": list(test_info_df[target_score]),
+                                    "y_pred": scores_pred}
                 # End of test_set.
                 # Convert to a long dataframe with all the recordings' predicted and actual values:
                 true_pred_score_df[test_set] = pd.DataFrame.from_dict(true_pred_score)
