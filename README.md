@@ -1,6 +1,7 @@
 # ASDSpeech
 
 This algorithm estimates autism severity from speech recordings. The algorithm is based on a convolutional neural network that was trained with speech recordings of Autism Diagnostic Observation Schedule, 2nd edition (ADOS-2) assessments from 136 children with autism. Speech segments of the children were manually annotated, individual vocalizations were separated, and a set of 49 accoustic and conversational features were extracted. The algorithm was tested on independent recordings from 61 additional children with autism who completed two ADOS-2 assessments, separated by 1-2 years.
+<br>
 Please see our paper for further details: **Reliably quantifying the severity of social symptoms in children with autism using ASDSpeech** [Translational Psychiatry](https://www.nature.com/articles/s41398-025-03233-6), 2025
 
 ## Folders organization
